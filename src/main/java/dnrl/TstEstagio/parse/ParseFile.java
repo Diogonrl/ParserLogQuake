@@ -45,7 +45,7 @@ public class ParseFile {
 		return a;
 	}
 
-	public void executar() {
+	public void executar(int escolha) {
 	
 		File arquivo = new File("game.log");
 		List<Jogo> jogos = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ParseFile {
 					Kill kill = trataKill(linha);
 					Jogador jogadorMatou = new Jogador(kill.getJogadorMatou());
 					Jogador jogadorMorreu = new Jogador(kill.getJogadorMorreu());
-					System.out.println(jogadorMatou +"  >  "+ jogadorMorreu);
+					//System.out.println(jogadorMatou +"  >  "+ jogadorMorreu);
 					
 
 				}
@@ -111,6 +111,8 @@ public class ParseFile {
 			}
 
 			sc.close();
+			new Print();
+			Print.imprimir(escolha, jogos);
 			//System.out.print(jogos);
 
 		} catch (FileNotFoundException e) {
