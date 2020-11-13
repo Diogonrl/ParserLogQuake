@@ -37,9 +37,21 @@ public class Jogo {
 	@Override
 	public String toString() {
 		return  name +": {"+ "\n"+  
-				"total_kills:" + killInGame + "\n"+
-				"players: " + jogadores + ""+"\n"+
-				"}"+"\n";
+				"     total_kills:" + killInGame + "\n"+
+				"     players: " + jogadores + ""+"\n"+
+				"     kills: {" + "\n" +
+				contador() +"        }"+"\n"+
+				"}\n";
+			
+	}
+	
+	private String contador() {
+		String kills ="";
+		for(int i=0; i<jogadores.size();i++) {
+			kills = kills + "        "+jogadores.get(i).getNome() +":"+ jogadores.get(i).getKills()+"\n";
+		}
+		
+		return kills;
 	}
 }
 	
