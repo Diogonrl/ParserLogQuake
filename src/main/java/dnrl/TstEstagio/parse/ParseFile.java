@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import dnrl.TstEstagio.builder.JogoBuilder;
 import dnrl.TstEstagio.entidades.Jogador;
@@ -14,16 +15,16 @@ public class ParseFile {
 
 	// TRATAMENTO DA LINHA DO KILL
 	private Kill trataKill(String linha) {
-		String[] linhaQuebrada = linha.split(" killed " + "");
-		String[] parteUm = linhaQuebrada[0].split(": ");
-		String[] parteDois = linhaQuebrada[1].split(" by");
-		return new Kill("\\" + parteUm[2] + "\\", "\\" + parteDois[0] + "\\");
+		String[] linhaQuebrada = linha.split(" killed " + "");// formatando a linha
+		String[] parteUm = linhaQuebrada[0].split(": ");// formatando a linha
+		String[] parteDois = linhaQuebrada[1].split(" by");// formatando a linha
+		return new Kill(parteUm[2], parteDois[0]);// formatando a linha
 	}
 
 	// TRATAMENTO DA LINHA DO JOGADOR
 	private Jogador trataJogador(String linha) {
-		String[] linhaQuebrada = linha.split(" n");// formatando a linha
-		String[] linhaQuebrada2 = linhaQuebrada[1].split("t");// formantando a linha
+		String[] linhaQuebrada = linha.split(Pattern.quote(" n\\"));// formatando a linha
+		String[] linhaQuebrada2 = linhaQuebrada[1].split(Pattern.quote("\\t"));// formantando a linha
 
 		return new Jogador(linhaQuebrada2[0]);
 	}
@@ -35,10 +36,10 @@ public class ParseFile {
 			return false;
 		}
 		for (int i = 0; i < jogos.get(totalJogos).getJogadores().size(); i++) {
-			if (jogos.get(totalJogos).getJogadores().get(i).getNome().compareTo(jogador.getNome()) != 0) {
-				a = true;
+			if (jogos.get(totalJogos).getJogadores().get(i).getNome().compareTo(jogador.getNome()) == 0) {
+				return false;
 			} else {
-				a = false;
+				a = true;
 			}
 		}
 
@@ -77,12 +78,10 @@ public class ParseFile {
 
 					} else {
 						if (buscaRepetidos(jogos, jogador, totalJogadores, totalJogos) == true) {
-
 							jogos.get(totalJogos).getJogadores().add(jogador);
 							totalJogadores++;
-						} else {
-
 						}
+
 					}
 				}
 
@@ -96,8 +95,9 @@ public class ParseFile {
 					Kill kill = trataKill(linha);
 					Jogador jogadorMatou = new Jogador(kill.getJogadorMatou());
 					Jogador jogadorMorreu = new Jogador(kill.getJogadorMorreu());
-					System.out.println(jogadorMatou + "  >  " + jogadorMorreu);
-					if (jogadorMatou.getNome().compareTo("\\<world>") != 0) {
+
+					// CONTADOR PARA KILL
+					if (jogadorMatou.getNome().compareTo("<world>") != 0) {
 						if (jogos.get(totalJogos).getJogadores().get(0).getNome()
 								.compareTo(jogadorMatou.getNome()) == 0) {
 							jogos.get(totalJogos).getJogadores().get(0)
@@ -114,6 +114,7 @@ public class ParseFile {
 						}
 
 					}
+					// CONTADOR PARA DEATH
 					if (jogos.get(totalJogos).getJogadores().get(0).getNome().compareTo(jogadorMorreu.getNome()) == 0) {
 						jogos.get(totalJogos).getJogadores().get(0)
 								.setKills(jogos.get(totalJogos).getJogadores().get(0).getKills() - 1);
@@ -131,19 +132,15 @@ public class ParseFile {
 
 				// COLHER AS INFORMÇÕES DE QUANDO O JOGO É FINALIZADO DO LOG
 				if (linha.contains("ShutdownGame")) {
-					System.out.println("\n");
 					totalJogadores = 0;
 					totalJogos++;
 
 				}
 
 			}
-
 			sc.close();
 			new Print();
-			// Print.imprimir(escolha, jogos);
-			System.out.print(jogos);
-
+			Print.imprimir(escolha, jogos);
 		} catch (FileNotFoundException e) {
 			System.out.println("Arquivo não foi encontrado.");
 		}

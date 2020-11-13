@@ -1,7 +1,7 @@
 package dnrl.TstEstagio.entidades;
 
 public class Jogador {
-	
+	//CLASSE JOGADOR
 	private String nome;
 	private int kills;
 	public String getNome() {

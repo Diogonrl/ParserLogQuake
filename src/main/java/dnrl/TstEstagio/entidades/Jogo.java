@@ -3,7 +3,7 @@ package dnrl.TstEstagio.entidades;
 import java.util.List;
 
 public class Jogo {
-	
+	//CLASSE JOGO
 	private String name;
 	private List<Jogador> jogadores;
 	private int killInGame;

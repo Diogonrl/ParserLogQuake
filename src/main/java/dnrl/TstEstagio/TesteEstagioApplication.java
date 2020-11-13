@@ -11,9 +11,9 @@ public class TesteEstagioApplication {
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		//System.out.println("Digite o numero do jogo, se for 0 irá mostrar todos");
-		//int escolha = in.nextInt();
-		new ParseFile().executar(0);
+		System.out.println("Digite o numero do jogo, se for 0 irá mostrar todos");
+		int escolha = in.nextInt();
+		new ParseFile().executar(escolha);
 	}
 
 }

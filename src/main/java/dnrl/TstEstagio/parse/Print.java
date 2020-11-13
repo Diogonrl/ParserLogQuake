@@ -5,6 +5,7 @@ import java.util.List;
 import dnrl.TstEstagio.entidades.Jogo;
 
 public class Print {
+	//IMPRESSOR
 	public static void imprimir(int escolha, List<Jogo> jogos) {
 		if(escolha==0) {
 			System.out.print(jogos);
@@ -13,4 +14,5 @@ public class Print {
 			System.out.print(jogos.get(escolha-1));
 		}
 	}
+	
 }
